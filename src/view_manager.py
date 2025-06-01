@@ -24,3 +24,6 @@ class ViewManager:
         scaled_surface = pygame.transform.scale(self.virtual_surface, (DEFAULTS.WINDOW_WIDTH, DEFAULTS.WINDOW_HEIGHT))
         self.screen.blit(scaled_surface, (0, 0))
         pygame.display.flip()
+
+    def get_screen(self):
+        return self.screen

@@ -11,12 +11,14 @@ class GameWindow:
         pygame.display.set_caption("TimbermanClone")
         self.running = True
         self.clock = pygame.time.Clock()
-        self.ui_manager = UIManager(self)
-        self.view_manager = ViewManager(self.ui_manager)
+        self.view_manager = ViewManager(None)
+        self.ui_manager = UIManager(self, self.view_manager)
+        self.view_manager.change_view(self.ui_manager)
 
     def run(self):
         while self.running:
-            for event in pygame.event.get():
+            events = pygame.event.get()  # Zbierz wszystkie eventy do zmiennej
+            for event in events:
                 if event.type == pygame.QUIT:
                     self.running = False
                 event_manager.handle_event(event)
@@ -25,6 +27,8 @@ class GameWindow:
             self.clock.tick(DEFAULTS.FPS)
 
         pygame.quit()
+
+
     
     def start_singleplayer(self):
         print("Uruchamiam tryb singleplayer")
