@@ -1,6 +1,6 @@
 import pygame
 from src import DEFAULTS
-from src.EventSubscriber import EventSubscriber
+from src.interfaces.EventSubscriber import EventSubscriber
 from src.event_manager import event_manager
 
 class Button(EventSubscriber):

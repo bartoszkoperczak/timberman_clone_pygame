@@ -1,7 +1,7 @@
 import pygame
 
-from src.Drawable import Drawable
-from src.button import Button
+from src.interfaces.Drawable import Drawable
+from src.components.button import Button
 
 class UIManager(Drawable):
     def __init__(self, game_window, view_manager):
@@ -76,6 +76,9 @@ class UIManager(Drawable):
             surface.blit(scaled_settings, (img_x, img_y))
         for button in self.buttons:
             button.draw(surface)
+
+    def cleanup(self):
+        self.clear_buttons()
 
     def handle_event(self, event):
         for button in self.buttons:

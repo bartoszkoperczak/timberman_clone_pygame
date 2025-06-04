@@ -3,7 +3,6 @@ class EventManager:
         self._listeners = {}
 
     def register_listener(self, event_type, listener):
-        print(f"Registering listener for event type: {event_type}")
         if event_type not in self._listeners:
             self._listeners[event_type] = []
         self._listeners[event_type].append(listener)
