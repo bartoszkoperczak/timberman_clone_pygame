@@ -32,15 +32,15 @@ class GameWindow:
     
     def start_singleplayer(self):
         print("Uruchamiam tryb singleplayer")
-        Game(GameMode.SINGLE_PLAYER)
+        Game(GameMode.SINGLE_PLAYER, self)
 
     def start_1vs1(self):
         print("Uruchamiam tryb 1vs1")
-        Game(GameMode.MULTI_PLAYER)
+        Game(GameMode.MULTI_PLAYER, self)
 
     def start_1vsbot(self):
         print("Uruchamiam tryb 1vsbot")
-        Game(GameMode.VS_BOT)
+        Game(GameMode.VS_BOT, self)
 
     def quit_game(self):  # Jeśli jeszcze tego nie masz
         pygame.quit()

@@ -8,11 +8,12 @@ class AssetsManager:
         self.loaded = False
 
     def _load_images(self):
-        for filename in os.listdir(self.assets_dir):
-            if filename.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.gif')):
-                name = os.path.splitext(filename)[0]
-                path = os.path.join(self.assets_dir, filename)
-                self.images[name] = pygame.image.load(path).convert_alpha()
+        for root, dirs, files in os.walk(self.assets_dir):
+            for filename in files:
+                if filename.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.gif')):
+                    name = os.path.splitext(filename)[0]
+                    path = os.path.join(root, filename)
+                    self.images[name] = pygame.image.load(path).convert_alpha()
 
     def get(self, name):
         if not self.loaded:

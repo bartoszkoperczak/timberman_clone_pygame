@@ -40,7 +40,7 @@ class GameEngine(Drawable, EventSubscriber):
         elif e.key == self.steering['hit']:
             self.character.hit()
             self.tree.drop()
-
+            self.game_callback("score", None)
 
     def pos(self, x=0, y=0):
         return (self.x_start + x, self.y_start + y)
