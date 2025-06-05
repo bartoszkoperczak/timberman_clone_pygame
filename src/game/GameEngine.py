@@ -33,14 +33,20 @@ class GameEngine(Drawable, EventSubscriber):
             event_manager.register_listener(pygame.KEYDOWN, self.register_listener)
 
     def register_listener(self, e):
+        # Blokada po przegranej
+        if hasattr(self, 'lost') and self.lost:
+            return
         if e.key == self.steering['left']:
             self.character.move(-1)
+            self.check_collision()
         elif e.key == self.steering['right']:
             self.character.move(1)
+            self.check_collision()
         elif e.key == self.steering['hit']:
             self.character.hit()
             self.tree.drop()
             self.game_callback("score", None)
+            self.check_collision()
 
     def pos(self, x=0, y=0):
         return (self.x_start + x, self.y_start + y)
@@ -56,3 +62,9 @@ class GameEngine(Drawable, EventSubscriber):
     def unregister(self):
         if self.steering != SteeringMode.BOT:
             event_manager.unregister_listener(pygame.KEYDOWN, self.register_listener)
+            
+    def check_collision(self):
+        # Sprawdź czy character jest na tej samej stronie co branch w najniższym logu
+        lowest_log = self.tree.stack[-1]
+        if lowest_log.branch_state != 0 and self.character.direction == lowest_log.branch_state:
+            self.game_callback("lose", None)

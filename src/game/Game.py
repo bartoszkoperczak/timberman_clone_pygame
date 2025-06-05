@@ -37,6 +37,8 @@ class Game(Drawable):
         self.font = pygame.font.SysFont(None, 48)
         self.score_primary = 0
         self.score_secondary = 0
+        self.lost_primary = False
+        self.lost_secondary = False
 
         event_manager.register_listener(pygame.MOUSEBUTTONDOWN, self.handle_mouse_event)
 
@@ -47,12 +49,18 @@ class Game(Drawable):
         return callback
 
     def parse_engine_data(self, k, data, source):
-        # Przykład: k == "score" lub k == "log_cut"
         if k in ("score", "log_cut"):
             if source == "primary":
                 self.score_primary += 1
             elif source == "secondary":
                 self.score_secondary += 1
+        elif k == "lose":
+            if source == "primary":
+                self.lost_primary = True
+                self.engines['primary'].lost = True
+            elif source == "secondary":
+                self.lost_secondary = True
+                self.engines['secondary'].lost = True
 
     def return_to_menu(self):
         from src.ui_manager import UIManager
@@ -61,7 +69,7 @@ class Game(Drawable):
         view_manager.change_view(ui_manager)
 
     def draw(self, screen):
-        for engine in self.engines.values():
+        for key, engine in self.engines.items():
             engine.draw(screen)
         self.return_button.draw(screen)
 
@@ -79,6 +87,27 @@ class Game(Drawable):
             score_text_2 = self.font.render(str(self.score_secondary), True, (255, 255, 255))
             score_rect_2 = score_text_2.get_rect(center=(3 * DEFAULTS.VIRTUAL_WIDTH // 4, 30))
             screen.blit(score_text_2, score_rect_2)
+
+        # Efekt przegranej
+        overlay = pygame.Surface((DEFAULTS.VIRTUAL_WIDTH, DEFAULTS.VIRTUAL_HEIGHT), pygame.SRCALPHA)
+        font_big = pygame.font.SysFont(None, 72)
+        text = font_big.render("You've lost!", True, (255, 255, 255))
+
+        if self.mode == GameMode.SINGLE_PLAYER and self.lost_primary:
+            overlay.fill((50, 50, 50, 180))
+            screen.blit(overlay, (0, 0))
+            screen.blit(text, text.get_rect(center=(DEFAULTS.VIRTUAL_WIDTH // 2, DEFAULTS.VIRTUAL_HEIGHT // 2)))
+        elif self.mode in (GameMode.MULTI_PLAYER, GameMode.VS_BOT):
+            if self.lost_primary:
+                overlay_part = pygame.Surface((DEFAULTS.VIRTUAL_WIDTH // 2, DEFAULTS.VIRTUAL_HEIGHT), pygame.SRCALPHA)
+                overlay_part.fill((50, 50, 50, 180))
+                screen.blit(overlay_part, (0, 0))
+                screen.blit(text, text.get_rect(center=(DEFAULTS.VIRTUAL_WIDTH // 4, DEFAULTS.VIRTUAL_HEIGHT // 2)))
+            if self.lost_secondary:
+                overlay_part = pygame.Surface((DEFAULTS.VIRTUAL_WIDTH // 2, DEFAULTS.VIRTUAL_HEIGHT), pygame.SRCALPHA)
+                overlay_part.fill((50, 50, 50, 180))
+                screen.blit(overlay_part, (DEFAULTS.VIRTUAL_WIDTH // 2, 0))
+                screen.blit(text, text.get_rect(center=(3 * DEFAULTS.VIRTUAL_WIDTH // 4, DEFAULTS.VIRTUAL_HEIGHT // 2)))
 
     def cleanup(self):
         event_manager.unregister_listener(pygame.MOUSEBUTTONDOWN, self.handle_mouse_event)
