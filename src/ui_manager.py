@@ -1,5 +1,6 @@
 import pygame
-
+import src.DEFAULTS as DEFAULTS
+from src.assets_manager import assets
 from src.interfaces.Drawable import Drawable
 from src.components.button import Button
 
@@ -8,6 +9,7 @@ class UIManager(Drawable):
         self.game_window = game_window
         self.view_manager = view_manager
         self.current_screen = 'main'
+        self.background_img = pygame.transform.scale(assets.get("menu_background"), (DEFAULTS.VIRTUAL_WIDTH, DEFAULTS.VIRTUAL_HEIGHT))
         self.buttons = []
         self.assets = self.load_assets()
         self.create_main_menu()
@@ -63,7 +65,8 @@ class UIManager(Drawable):
         exit()
 
     def draw(self, surface):
-        surface.fill((173, 216, 230))
+        surface.blit(self.background_img, (0, 0))
+
         if self.current_screen == 'settings':
             settings_img = self.assets['settings']
             scaled_settings = pygame.transform.scale(

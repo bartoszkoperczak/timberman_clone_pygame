@@ -42,6 +42,8 @@ class Tree(Drawable):
         for i, log in enumerate(self.stack):
             log.update_index(i)
 
+        return falling_log.is_golden, falling_log.is_branch_golden
+
     def update_falling_logs(self, new):
         for log in self.falling_logs:
             if not log.falling:

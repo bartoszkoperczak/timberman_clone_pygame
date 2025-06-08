@@ -1,116 +1,105 @@
-from datetime import datetime
-from enum import Enum
-
+import pygame
+from random import randint
+import src.DEFAULTS as DEFAULTS
+from src.view_manager import view_manager
+from src.assets_manager import assets
 from src.interfaces.Drawable import Drawable
 from src.game.GameEngine import GameEngine, SteeringMode
-from src.view_manager import view_manager
-import src.DEFAULTS as DEFAULTS
-import pygame
-from src.assets_manager import assets
-from src.event_manager import event_manager
-from src.components.button import Button
-
-
-class GameMode(Enum):
-    SINGLE_PLAYER = 1
-    MULTI_PLAYER = 2
-    VS_BOT = 3
+from src.game.HUD import HUD
+from src.enums.GameMode import GameMode
+from src.storage_service import storage_service
 
 class Game(Drawable):
     def __init__(self, mode: GameMode, game_window=None):
         self.mode = mode
-        self.start_time = datetime.now()
-        self.engines = {}
         self.game_window = game_window
+        self.engines = {}
 
-        if mode == GameMode.SINGLE_PLAYER:
+        background_index = randint(1, 5)
+        self.background = pygame.transform.scale(assets.get(f"background{background_index}"), (DEFAULTS.VIRTUAL_WIDTH, DEFAULTS.VIRTUAL_HEIGHT))
+        # --- logika czasu ---
+        self.time_limit = DEFAULTS.MULTIPLAYER_GAME_TIME if mode in (GameMode.MULTI_PLAYER, GameMode.VS_BOT) else None
+        self.start_ticks = pygame.time.get_ticks()
+        self.time_over = False
+        self.elapsed_seconds = 0
+        self.remaining_seconds = self.time_limit if self.time_limit else 0
+        # ---
+        self.hud = HUD(self, mode)
+        self._init_engines()
+        view_manager.change_view(self)
+
+    def _init_engines(self):
+        if self.mode == GameMode.SINGLE_PLAYER:
             self.engines['primary'] = GameEngine(SteeringMode.PLAYER_1, self.get_callback('primary'), rect=((0, 0), (DEFAULTS.VIRTUAL_WIDTH, DEFAULTS.VIRTUAL_HEIGHT)))
-        elif mode == GameMode.MULTI_PLAYER:
+        elif self.mode == GameMode.MULTI_PLAYER:
             self.engines['primary'] = GameEngine(SteeringMode.PLAYER_1, self.get_callback('primary'), rect=((0, 0), (0.5 * DEFAULTS.VIRTUAL_WIDTH , DEFAULTS.VIRTUAL_HEIGHT)))
             self.engines['secondary'] = GameEngine(SteeringMode.PLAYER_2, self.get_callback('secondary'), rect=((0.5 * DEFAULTS.VIRTUAL_WIDTH, 0), (DEFAULTS.VIRTUAL_WIDTH, DEFAULTS.VIRTUAL_HEIGHT)))
-        elif mode == GameMode.VS_BOT:
+        elif self.mode == GameMode.VS_BOT:
             self.engines['primary'] = GameEngine(SteeringMode.PLAYER_1, self.get_callback('primary'), rect=((0, 0), (0.5 * DEFAULTS.VIRTUAL_WIDTH , DEFAULTS.VIRTUAL_HEIGHT)))
-            self.engines['secondary'] = GameEngine(SteeringMode.BOT, self.get_callback('secondary'), rect=((0.5 * DEFAULTS.VIRTUAL_WIDTH, 0), (DEFAULTS.VIRTUAL_WIDTH, DEFAULTS.VIRTUAL_WIDTH)))
-
-        view_manager.change_view(self)
-        self.return_button = Button(10, 10, assets.get("return_button"), self.return_to_menu)
-        self.font = pygame.font.SysFont(None, 48)
-        self.score_primary = 0
-        self.score_secondary = 0
-        self.lost_primary = False
-        self.lost_secondary = False
-
-        event_manager.register_listener(pygame.MOUSEBUTTONDOWN, self.handle_mouse_event)
+            self.engines['secondary'] = GameEngine(SteeringMode.BOT, self.get_callback('secondary'), rect=((0.5 * DEFAULTS.VIRTUAL_WIDTH, 0), (DEFAULTS.VIRTUAL_WIDTH, DEFAULTS.VIRTUAL_HEIGHT)))
 
     def get_callback(self, source):
         def callback(k, v):
             self.parse_engine_data(k, v, source)
-
         return callback
 
     def parse_engine_data(self, k, data, source):
-        if k in ("score", "log_cut"):
-            if source == "primary":
-                self.score_primary += 1
-            elif source == "secondary":
-                self.score_secondary += 1
-        elif k == "lose":
-            if source == "primary":
-                self.lost_primary = True
-                self.engines['primary'].lost = True
-            elif source == "secondary":
-                self.lost_secondary = True
-                self.engines['secondary'].lost = True
+        if k == "lose":
+            self._handle_lose(source)
 
-    def return_to_menu(self):
-        from src.ui_manager import UIManager
-        from src.view_manager import view_manager
-        ui_manager = UIManager(self.game_window, view_manager)
-        view_manager.change_view(ui_manager)
+    def _handle_lose(self, source):
+        self.engines[source].lost = True
+        if source == "primary":
+            self.hud.lost_primary = True
+        elif source == "secondary":
+            self.hud.lost_secondary = True
+
+    def get_scores(self):
+        primary = self.engines['primary'].score if 'primary' in self.engines else 0
+        secondary = self.engines['secondary'].score if 'secondary' in self.engines else 0
+        return primary, secondary
+
+    def update_time(self):
+        now_ticks = pygame.time.get_ticks()
+        self.elapsed_seconds = (now_ticks - self.start_ticks) // 1000
+        if self.mode == GameMode.SINGLE_PLAYER:
+            pass  # czas liczy się do góry
+        else:
+            self.remaining_seconds = max(0, self.time_limit - self.elapsed_seconds)
+            if self.remaining_seconds == 0:
+                self.time_over = True
+
+    def get_time_str(self):
+        if self.mode == GameMode.SINGLE_PLAYER:
+            total_seconds = self.elapsed_seconds
+        else:
+            total_seconds = self.remaining_seconds
+        minutes = total_seconds // 60
+        seconds = total_seconds % 60
+        return f"{minutes:02}:{seconds:02}"
+
+    def _draw_background(self, screen):
+        screen.blit(self.background, (0, 0))
+
+    def save_game_history(self):
+        primary, secondary = self.get_scores()
+        game_record = {
+            'mode': self.mode.value,
+            'primary_score': primary,
+            'secondary_score': secondary,
+            'time_limit': self.time_limit or -1,
+            'time': self.get_time_str()
+        }
+        storage_service.add_history_record(game_record)
 
     def draw(self, screen):
-        for key, engine in self.engines.items():
+        self.update_time()
+        self._draw_background(screen)
+        for engine in self.engines.values():
             engine.draw(screen)
-        self.return_button.draw(screen)
-
-        if self.mode == GameMode.SINGLE_PLAYER:
-            # Jeden licznik na środku
-            score_text = self.font.render(str(self.score_primary), True, (255, 255, 255))
-            score_rect = score_text.get_rect(center=(DEFAULTS.VIRTUAL_WIDTH // 2, 30))
-            screen.blit(score_text, score_rect)
-        else:
-            # Dwa liczniki na środku każdej połowy
-            score_text_1 = self.font.render(str(self.score_primary), True, (255, 255, 255))
-            score_rect_1 = score_text_1.get_rect(center=(DEFAULTS.VIRTUAL_WIDTH // 4, 30))
-            screen.blit(score_text_1, score_rect_1)
-
-            score_text_2 = self.font.render(str(self.score_secondary), True, (255, 255, 255))
-            score_rect_2 = score_text_2.get_rect(center=(3 * DEFAULTS.VIRTUAL_WIDTH // 4, 30))
-            screen.blit(score_text_2, score_rect_2)
-
-        # Efekt przegranej
-        overlay = pygame.Surface((DEFAULTS.VIRTUAL_WIDTH, DEFAULTS.VIRTUAL_HEIGHT), pygame.SRCALPHA)
-        font_big = pygame.font.SysFont(None, 72)
-        text = font_big.render("You've lost!", True, (255, 255, 255))
-
-        if self.mode == GameMode.SINGLE_PLAYER and self.lost_primary:
-            overlay.fill((50, 50, 50, 180))
-            screen.blit(overlay, (0, 0))
-            screen.blit(text, text.get_rect(center=(DEFAULTS.VIRTUAL_WIDTH // 2, DEFAULTS.VIRTUAL_HEIGHT // 2)))
-        elif self.mode in (GameMode.MULTI_PLAYER, GameMode.VS_BOT):
-            if self.lost_primary:
-                overlay_part = pygame.Surface((DEFAULTS.VIRTUAL_WIDTH // 2, DEFAULTS.VIRTUAL_HEIGHT), pygame.SRCALPHA)
-                overlay_part.fill((50, 50, 50, 180))
-                screen.blit(overlay_part, (0, 0))
-                screen.blit(text, text.get_rect(center=(DEFAULTS.VIRTUAL_WIDTH // 4, DEFAULTS.VIRTUAL_HEIGHT // 2)))
-            if self.lost_secondary:
-                overlay_part = pygame.Surface((DEFAULTS.VIRTUAL_WIDTH // 2, DEFAULTS.VIRTUAL_HEIGHT), pygame.SRCALPHA)
-                overlay_part.fill((50, 50, 50, 180))
-                screen.blit(overlay_part, (DEFAULTS.VIRTUAL_WIDTH // 2, 0))
-                screen.blit(text, text.get_rect(center=(3 * DEFAULTS.VIRTUAL_WIDTH // 4, DEFAULTS.VIRTUAL_HEIGHT // 2)))
+        primary, secondary = self.get_scores()
+        self.hud.draw(screen, self.get_time_str(), self.time_over, primary, secondary)
 
     def cleanup(self):
-        event_manager.unregister_listener(pygame.MOUSEBUTTONDOWN, self.handle_mouse_event)
+        self.hud.cleanup()
 
-    def handle_mouse_event(self, event):
-        self.return_button.handle_mouse_click(event)

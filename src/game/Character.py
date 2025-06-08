@@ -19,6 +19,7 @@ class Character(Drawable):
 
         self.position = initial_position
         self.direction = -1
+        self.img_alpha = 255
 
     def move(self, direction):
         if direction == self.direction:
@@ -55,12 +56,15 @@ class Character(Drawable):
                     self.hit_animating = False
                     self.img = self.hit_anim_frames[self.hit_anim_sequence[0]]
 
+    def set_transparency(self, alpha):
+        self.img_alpha = alpha
 
     def hit(self):
         if not self.hit_animating:
             self.hit_animate()
 
     def draw(self, screen):
+        self.img.set_alpha(self.img_alpha)
         screen.blit(self.img, self.position)
         self.update()
 

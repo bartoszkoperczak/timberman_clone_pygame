@@ -2,5 +2,6 @@ from abc import ABC, abstractmethod
 
 class Drawable(ABC):
     @abstractmethod
-    def draw(self, screen):
+    def draw(self, screen) -> None:
         pass
+

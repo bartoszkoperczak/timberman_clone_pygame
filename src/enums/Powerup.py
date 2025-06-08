@@ -1,0 +1,7 @@
+from enum import Enum
+
+class PowerupType(Enum):
+    GOLDEN_LOG = 1 # ADDITIONAL POINTS
+    UNTOUCHABLE = 2 # INVINCIBILITY
+    TURBO_AXE = 3 # INCREASED SPEED
+    ICE_SHARD = 4 # DECREASES POINTS

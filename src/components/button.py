@@ -44,7 +44,6 @@ class Button(EventSubscriber):
             self.callback()
 
     def unregister(self):
-        print(f"Unregistering listener for event type: {pygame.MOUSEBUTTONDOWN}")
         event_manager.unregister_listener(pygame.MOUSEBUTTONDOWN, self.handle_mouse_click)
 
     def __del__(self):

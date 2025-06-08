@@ -60,3 +60,4 @@ class StorageService:
             print(f"Error saving config entry: {e}")
             return False
 
+storage_service = StorageService()

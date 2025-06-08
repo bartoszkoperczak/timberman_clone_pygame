@@ -9,9 +9,12 @@ from src.interfaces.Drawable import Drawable
 class Log(Drawable):
     def __init__(self, index, branch_state=None, bottommost_position=None):
         self.index = index
+        is_golden, is_branch_golden = random.choices([False, True], weights=[97, 3], k=2)
+        self.is_golden = is_golden
+        self.is_branch_golden = is_branch_golden
         self.position = (bottommost_position[0], bottommost_position[1] - DEFAULTS.TREE_SIZE[1] * index)
-        self.img = pygame.transform.scale(assets.get('tree'), DEFAULTS.TREE_SIZE)
-        self.branch_img = pygame.transform.scale(assets.get('branch'), DEFAULTS.TREE_SIZE)
+        self.img = pygame.transform.scale(assets.get('golden_tree' if is_golden else 'tree'), DEFAULTS.TREE_SIZE)
+        self.branch_img = pygame.transform.scale(assets.get('golden_branch' if is_branch_golden else 'branch'), DEFAULTS.TREE_SIZE)
         self.bottommost_position = bottommost_position
         self.branch_state = branch_state  # 0: no branch, -1: left branch, 1: right branch
 
@@ -45,9 +48,9 @@ class Log(Drawable):
         self.fall_rotation = 0
 
         self.fall_side = random.choice([-1, 1])
-        self.fall_x_speed = random.uniform(360, 420) * self.fall_side      # px/s w bok
-        self.fall_y_speed = random.uniform(120, 240)                      # px/s w dół
-        self.fall_rotation_speed = random.uniform(30, 90) * self.fall_side # deg/s
+        self.fall_x_speed = random.uniform(150, 200) * self.fall_side      # px/s w bok
+        self.fall_y_speed = random.uniform(200, 300)                      # px/s w dół
+        self.fall_rotation_speed = random.uniform(90, 180) * self.fall_side # deg/s
         self.fall_scale = 1.0
         self.fall_scale_final = random.uniform(0.3, 0.7)                  # końcowa wielkość
         self.fall_scale_speed = (self.fall_scale_final - 1.0) / 0.8       # przez ok. 0.8s zmiana skali
