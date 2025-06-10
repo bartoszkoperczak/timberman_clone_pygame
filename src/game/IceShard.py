@@ -9,7 +9,7 @@ class IceShard(Obstacle):
     def __init__(self, initial_position):
         super().__init__()
         self.side = random.choice([-1, 1])
-        self.x = initial_position[0] + DEFAULTS.SPRITE_MOVEMENT_RANGE * (1 - self.side) / 2
+        self.x = initial_position[0] + DEFAULTS.SPRITE_MOVEMENT_RANGE * (1 + self.side) / 2
         self.y = initial_position[1]
         self.speed = 3
         self.img = pygame.transform.scale(assets.get('ice_shard'), DEFAULTS.ICE_SHARD_SIZE)

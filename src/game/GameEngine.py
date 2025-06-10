@@ -9,7 +9,6 @@ from src.interfaces.Drawable import Drawable
 from src.interfaces.EventSubscriber import EventSubscriber
 from src.enums.SteeringMode import SteeringMode
 
-
 class GameEngine(Drawable, EventSubscriber):
     def __init__(self, steering: SteeringMode, game_callback, rect):
         self.steering = steering
@@ -29,6 +28,9 @@ class GameEngine(Drawable, EventSubscriber):
         if steering != SteeringMode.BOT:
             self.steering = DEFAULTS.PLAYER_1_STEERING if steering == SteeringMode.PLAYER_1 else DEFAULTS.PLAYER_2_STEERING
             event_manager.register_listener(pygame.KEYDOWN, self.register_listener)
+        else:
+            self.bot_last_call = -1
+            event_manager.add_loop_listener(self.run_bot)
 
         self.score = 0
         self.lost = False
@@ -80,6 +82,44 @@ class GameEngine(Drawable, EventSubscriber):
     def pos(self, x=0, y=0):
         return self.x_start + x, self.y_start + y - DEFAULTS.GAME_BOTTOM_OFFSET
 
+    def run_bot(self):
+        if pygame.time.get_ticks() - self.bot_last_call  < DEFAULTS.BOT_ACTION_DELAY:
+            return
+
+        self.bot_last_call = pygame.time.get_ticks()
+
+        state = [self.character.direction, self.ice_shard.side if self.ice_shard else 0, self.ice_shard.y if self.ice_shard else -1, self.tree.stack[-2].branch_state, self.untouchable_turns]
+
+        action = self.get_bot_action(state)
+
+        if action == -1:
+            self.handle_lclick()
+        elif action == 1:
+            self.handle_rclick()
+        elif action == 2:
+            self.handle_hit()
+        else:
+            pass
+            # wait
+
+    def get_bot_action(self, state):
+        character_side, ice_shard_side, ice_shard_height, log_above_branch_state, untouchable_turns = state
+
+
+        if untouchable_turns > 1:
+            return 2
+
+        if character_side == ice_shard_side and ice_shard_height > 270:
+            return -character_side
+
+        if character_side == -ice_shard_side and ice_shard_height > 270 and log_above_branch_state == character_side:
+            return 0
+
+        if log_above_branch_state == character_side:
+            return -character_side
+
+        return 2
+
     def draw(self, screen, *args):
         self.character.draw(screen)
         self.tree.draw(screen)
@@ -113,7 +153,7 @@ class GameEngine(Drawable, EventSubscriber):
                 self.points_popups.remove(popup)
 
     def check_ice_shard_collision(self):
-        if self.ice_shard is not None:
+        if self.ice_shard is not None or self.untouchable_turns:
             # Pobierz prostokąt postaci
             char_rect = pygame.Rect(self.character.position, self.character.img.get_size())
 

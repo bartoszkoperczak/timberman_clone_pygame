@@ -23,12 +23,13 @@ class GameWindow:
                     self.running = False
                 event_manager.handle_event(event)
 
+            for listener in event_manager.loop_listeners:
+                listener()
+
             self.view_manager.draw()
             self.clock.tick(DEFAULTS.FPS)
 
         pygame.quit()
-
-
     
     def start_singleplayer(self):
         print("Uruchamiam tryb singleplayer")

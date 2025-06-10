@@ -22,6 +22,8 @@ LOGS_PER_TREE = 7
 
 MULTIPLAYER_GAME_TIME = 100  # czas trwania gry multiplayer/vs bot w sekundach
 
+BOT_ACTION_DELAY = 250
+
 ICE_SHARD_SIZE = (64, 64)
 ICE_SHARD_CHANCE = 0.025
 
