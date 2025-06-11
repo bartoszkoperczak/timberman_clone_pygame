@@ -99,10 +99,12 @@ class Log(Drawable):
                 self.falling = False
 
     def update_index(self, index):
+        """Update the log's index in the tree and recalculate its position."""
         self.index = index
         self.update_position()
 
     def update_position(self):
+        """Recalculate the log's and branch's position based on its index."""
         self.position = (
             self.bottommost_position[0],
             self.bottommost_position[1] - DEFAULTS.TREE_SIZE[1] * (DEFAULTS.LOGS_PER_TREE - self.index - 1)
@@ -112,6 +114,7 @@ class Log(Drawable):
             self.branch_position = (self.position[0] + DEFAULTS.TREE_SIZE[0] * self.branch_state, self.position[1])
 
     def draw(self, screen):
+        """Draw the log and its branch (if present) on the screen."""
         if self.branch_state != 0:
             screen.blit(self.branch_img, self.branch_position)
         screen.blit(self.img, self.position)

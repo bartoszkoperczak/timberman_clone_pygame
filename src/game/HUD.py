@@ -19,7 +19,7 @@ class HUD(Drawable, EventSubscriber):
         self.font = pygame.font.Font("assets/fonts/Pixelify_Sans/static/PixelifySans-Bold.ttf", 48)
         self.lost_primary = False
         self.lost_secondary = False
-        event_manager.register_listener(pygame.MOUSEBUTTONDOWN, self.handle_mouse_event)
+        #event_manager.register_listener(pygame.MOUSEBUTTONDOWN, self.handle_mouse_event)
 
     def draw(self, screen, time_str, time_over, score_primary=None, score_secondary=None):
         self._draw_scores(screen, score_primary, score_secondary)
@@ -93,15 +93,19 @@ class HUD(Drawable, EventSubscriber):
             screen.blit(winner_img, img_rect)
 
     def handle_mouse_event(self, event):
+        """Handle mouse events for the return button."""
         self.return_button.handle_mouse_click(event)
 
     def unregister(self):
+        """Unregister mouse event listener for the HUD."""
         event_manager.unregister_listener(pygame.MOUSEBUTTONDOWN, self.handle_mouse_event)
 
     def cleanup(self):
+        """Clean up HUD resources and unregister listeners."""
         self.unregister()
 
     def return_to_menu(self):
+        """Return to the main menu and save the game history."""
         from src.ui_manager import UIManager
         from src.view_manager import view_manager
         from src.game_window import game_window

@@ -93,6 +93,7 @@ class Game(Drawable):
         storage_service.add_history_record(game_record)
 
     def draw(self, screen):
+        """Draw the game background, all engines, and HUD on the screen."""
         self.update_time()
         self._draw_background(screen)
         for engine in self.engines.values():
@@ -100,6 +101,15 @@ class Game(Drawable):
         primary, secondary = self.get_scores()
         self.hud.draw(screen, self.get_time_str(), self.time_over, primary, secondary)
 
-    def cleanup(self):
-        self.hud.cleanup()
+    def handle_event(self, event):
+        """Handle user input events and pass them to HUD and engines."""
+        # Obsługa powrotu do menu
+        self.hud.handle_mouse_event(event)
+        # Obsługa sterowania
+        for engine in self.engines.values():
+            if hasattr(engine, "handle_event"):
+                engine.handle_event(event)
 
+    def cleanup(self):
+        """Clean up resources used by the HUD."""
+        self.hud.cleanup()

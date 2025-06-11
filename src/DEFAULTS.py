@@ -27,14 +27,14 @@ BOT_ACTION_DELAY = 250
 ICE_SHARD_SIZE = (64, 64)
 ICE_SHARD_CHANCE = 0.025
 
-PLAYER_2_STEERING = {
-    'left': 1073741904,
-    'right': 1073741903,
-    'hit': 1073741905
-}
-
-PLAYER_1_STEERING = {
-    'left': 97,
-    'right': 100,
-    'hit': 115
-}
+# PLAYER_2_STEERING = {
+#     'left': 1073741904,
+#     'right': 1073741903,
+#     'hit': 1073741905
+# }
+#
+# PLAYER_1_STEERING = {
+#     'left': 97,
+#     'right': 100,
+#     'hit': 115
+# }
