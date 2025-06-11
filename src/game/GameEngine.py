@@ -28,7 +28,7 @@ class GameEngine(Drawable, EventSubscriber):
 
         if steering != SteeringMode.BOT:
             self.steering = DEFAULTS.PLAYER_1_STEERING if steering == SteeringMode.PLAYER_1 else DEFAULTS.PLAYER_2_STEERING
-            event_manager.register_listener(pygame.KEYDOWN, self.register_listener)
+            #event_manager.register_listener(pygame.KEYDOWN, self.register_listener)
 
         self.score = 0
         self.lost = False
@@ -147,4 +147,10 @@ class GameEngine(Drawable, EventSubscriber):
     def unregister(self):
         if self.steering != SteeringMode.BOT:
             event_manager.unregister_listener(pygame.KEYDOWN, self.register_listener)
+
+    def handle_event(self, event):
+        if self.steering == SteeringMode.BOT:
+            return  # bot nie obsługuje eventów klawiatury
+        if event.type == pygame.KEYDOWN:
+            self.register_listener(event)
 

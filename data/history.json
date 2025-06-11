@@ -430,5 +430,45 @@
     "time_limit": -1,
     "time": "00:33",
     "timestamp": "2025-06-11T17:18:51.328450"
+  },
+  {
+    "mode": 1,
+    "primary_score": 138,
+    "secondary_score": 0,
+    "time_limit": -1,
+    "time": "00:26",
+    "timestamp": "2025-06-11T18:13:40.288359"
+  },
+  {
+    "mode": 2,
+    "primary_score": 1,
+    "secondary_score": 0,
+    "time_limit": 100,
+    "time": "01:39",
+    "timestamp": "2025-06-11T18:13:42.957992"
+  },
+  {
+    "mode": 2,
+    "primary_score": 35,
+    "secondary_score": 3,
+    "time_limit": 100,
+    "time": "01:30",
+    "timestamp": "2025-06-11T18:14:13.620401"
+  },
+  {
+    "mode": 3,
+    "primary_score": 0,
+    "secondary_score": 0,
+    "time_limit": 100,
+    "time": "01:34",
+    "timestamp": "2025-06-11T18:15:54.649130"
+  },
+  {
+    "mode": 1,
+    "primary_score": 52,
+    "secondary_score": 0,
+    "time_limit": -1,
+    "time": "00:07",
+    "timestamp": "2025-06-11T18:16:02.610426"
   }
 ]

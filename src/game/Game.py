@@ -100,6 +100,14 @@ class Game(Drawable):
         primary, secondary = self.get_scores()
         self.hud.draw(screen, self.get_time_str(), self.time_over, primary, secondary)
 
+    def handle_event(self, event):
+        # Obsługa powrotu do menu
+        self.hud.handle_mouse_event(event)
+        # Obsługa sterowania
+        for engine in self.engines.values():
+            if hasattr(engine, "handle_event"):
+                engine.handle_event(event)
+
     def cleanup(self):
         self.hud.cleanup()
 
