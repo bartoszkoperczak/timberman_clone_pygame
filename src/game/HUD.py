@@ -19,7 +19,7 @@ class HUD(Drawable, EventSubscriber):
         self.font = pygame.font.Font("assets/fonts/Pixelify_Sans/static/PixelifySans-Bold.ttf", 48)
         self.lost_primary = False
         self.lost_secondary = False
-        event_manager.register_listener(pygame.MOUSEBUTTONDOWN, self.handle_mouse_event)
+        #event_manager.register_listener(pygame.MOUSEBUTTONDOWN, self.handle_mouse_event)
 
     def draw(self, screen, time_str, time_over, score_primary=None, score_secondary=None):
         self._draw_scores(screen, score_primary, score_secondary)

@@ -9,7 +9,7 @@ class Button(EventSubscriber):
         self.rect = self.image.get_rect(topleft=(x, y))
         self.callback = callback
         self.hovered = False
-        event_manager.register_listener(pygame.MOUSEBUTTONDOWN, self.handle_mouse_click)
+        #event_manager.register_listener(pygame.MOUSEBUTTONDOWN, self.handle_mouse_click)
 
     def draw(self, surface):
         # Sprawdź pozycję myszy i przeskaluj do wirtualnej powierzchni
@@ -35,6 +35,8 @@ class Button(EventSubscriber):
             # pygame.draw.rect(surface, (0, 255, 0), self.rect, 2)
 
     def handle_mouse_click(self, event):
+        if event.type != pygame.MOUSEBUTTONDOWN:
+            return
         if event.button != 1:
             return
 
@@ -42,6 +44,9 @@ class Button(EventSubscriber):
         scaled_y = event.pos[1] * DEFAULTS.SCALE
         if self.rect.collidepoint((scaled_x, scaled_y)):
             self.callback()
+
+    def handle_event(self, event):
+        self.handle_mouse_click(event)
 
     def unregister(self):
         event_manager.unregister_listener(pygame.MOUSEBUTTONDOWN, self.handle_mouse_click)

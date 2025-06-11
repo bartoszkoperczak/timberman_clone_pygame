@@ -190,5 +190,245 @@
     "time_limit": -1,
     "time": "00:59",
     "timestamp": "2025-06-09T00:40:54.641100"
+  },
+  {
+    "mode": 1,
+    "primary_score": 41,
+    "secondary_score": 0,
+    "time_limit": -1,
+    "time": "00:19",
+    "timestamp": "2025-06-09T16:34:22.862280"
+  },
+  {
+    "mode": 1,
+    "primary_score": 41,
+    "secondary_score": 0,
+    "time_limit": -1,
+    "time": "00:19",
+    "timestamp": "2025-06-09T16:34:24.894426"
+  },
+  {
+    "mode": 1,
+    "primary_score": 1,
+    "secondary_score": 0,
+    "time_limit": -1,
+    "time": "00:01",
+    "timestamp": "2025-06-09T16:34:24.907332"
+  },
+  {
+    "mode": 1,
+    "primary_score": 41,
+    "secondary_score": 0,
+    "time_limit": -1,
+    "time": "00:19",
+    "timestamp": "2025-06-09T16:34:31.613580"
+  },
+  {
+    "mode": 1,
+    "primary_score": 1,
+    "secondary_score": 0,
+    "time_limit": -1,
+    "time": "00:01",
+    "timestamp": "2025-06-09T16:34:31.628613"
+  },
+  {
+    "mode": 1,
+    "primary_score": -18,
+    "secondary_score": 0,
+    "time_limit": -1,
+    "time": "00:05",
+    "timestamp": "2025-06-09T16:34:31.641176"
+  },
+  {
+    "mode": 1,
+    "primary_score": 41,
+    "secondary_score": 0,
+    "time_limit": -1,
+    "time": "00:19",
+    "timestamp": "2025-06-09T16:34:33.590478"
+  },
+  {
+    "mode": 1,
+    "primary_score": 1,
+    "secondary_score": 0,
+    "time_limit": -1,
+    "time": "00:01",
+    "timestamp": "2025-06-09T16:34:33.650495"
+  },
+  {
+    "mode": 1,
+    "primary_score": -18,
+    "secondary_score": 0,
+    "time_limit": -1,
+    "time": "00:05",
+    "timestamp": "2025-06-09T16:34:33.712738"
+  },
+  {
+    "mode": 1,
+    "primary_score": 1,
+    "secondary_score": 0,
+    "time_limit": -1,
+    "time": "00:01",
+    "timestamp": "2025-06-09T16:34:33.772272"
+  },
+  {
+    "mode": 1,
+    "primary_score": 41,
+    "secondary_score": 0,
+    "time_limit": -1,
+    "time": "00:19",
+    "timestamp": "2025-06-09T16:34:40.828304"
+  },
+  {
+    "mode": 1,
+    "primary_score": 1,
+    "secondary_score": 0,
+    "time_limit": -1,
+    "time": "00:01",
+    "timestamp": "2025-06-09T16:34:40.841838"
+  },
+  {
+    "mode": 1,
+    "primary_score": -18,
+    "secondary_score": 0,
+    "time_limit": -1,
+    "time": "00:05",
+    "timestamp": "2025-06-09T16:34:40.855439"
+  },
+  {
+    "mode": 1,
+    "primary_score": 1,
+    "secondary_score": 0,
+    "time_limit": -1,
+    "time": "00:01",
+    "timestamp": "2025-06-09T16:34:40.868193"
+  },
+  {
+    "mode": 1,
+    "primary_score": 37,
+    "secondary_score": 0,
+    "time_limit": -1,
+    "time": "00:06",
+    "timestamp": "2025-06-09T16:34:40.880757"
+  },
+  {
+    "mode": 1,
+    "primary_score": 41,
+    "secondary_score": 0,
+    "time_limit": -1,
+    "time": "00:19",
+    "timestamp": "2025-06-09T16:35:05.839169"
+  },
+  {
+    "mode": 1,
+    "primary_score": 1,
+    "secondary_score": 0,
+    "time_limit": -1,
+    "time": "00:01",
+    "timestamp": "2025-06-09T16:35:05.854560"
+  },
+  {
+    "mode": 1,
+    "primary_score": -18,
+    "secondary_score": 0,
+    "time_limit": -1,
+    "time": "00:05",
+    "timestamp": "2025-06-09T16:35:05.870648"
+  },
+  {
+    "mode": 1,
+    "primary_score": 1,
+    "secondary_score": 0,
+    "time_limit": -1,
+    "time": "00:01",
+    "timestamp": "2025-06-09T16:35:05.885573"
+  },
+  {
+    "mode": 1,
+    "primary_score": 37,
+    "secondary_score": 0,
+    "time_limit": -1,
+    "time": "00:06",
+    "timestamp": "2025-06-09T16:35:05.898772"
+  },
+  {
+    "mode": 3,
+    "primary_score": 73,
+    "secondary_score": 0,
+    "time_limit": 100,
+    "time": "01:17",
+    "timestamp": "2025-06-09T16:35:05.910919"
+  },
+  {
+    "mode": 1,
+    "primary_score": 98,
+    "secondary_score": 0,
+    "time_limit": -1,
+    "time": "00:31",
+    "timestamp": "2025-06-10T14:51:19.142527"
+  },
+  {
+    "mode": 1,
+    "primary_score": 98,
+    "secondary_score": 0,
+    "time_limit": -1,
+    "time": "00:31",
+    "timestamp": "2025-06-10T14:51:26.872155"
+  },
+  {
+    "mode": 2,
+    "primary_score": 1,
+    "secondary_score": 1,
+    "time_limit": 100,
+    "time": "01:34",
+    "timestamp": "2025-06-10T14:51:26.902936"
+  },
+  {
+    "mode": 1,
+    "primary_score": 98,
+    "secondary_score": 0,
+    "time_limit": -1,
+    "time": "00:31",
+    "timestamp": "2025-06-10T14:51:32.329101"
+  },
+  {
+    "mode": 2,
+    "primary_score": 1,
+    "secondary_score": 1,
+    "time_limit": 100,
+    "time": "01:34",
+    "timestamp": "2025-06-10T14:51:32.368427"
+  },
+  {
+    "mode": 3,
+    "primary_score": 0,
+    "secondary_score": 0,
+    "time_limit": 100,
+    "time": "01:37",
+    "timestamp": "2025-06-10T14:51:32.387192"
+  },
+  {
+    "mode": 3,
+    "primary_score": 0,
+    "secondary_score": 0,
+    "time_limit": 100,
+    "time": "01:38",
+    "timestamp": "2025-06-11T17:18:17.492598"
+  },
+  {
+    "mode": 3,
+    "primary_score": 1,
+    "secondary_score": 0,
+    "time_limit": 100,
+    "time": "01:38",
+    "timestamp": "2025-06-11T17:18:51.290367"
+  },
+  {
+    "mode": 1,
+    "primary_score": 144,
+    "secondary_score": 0,
+    "time_limit": -1,
+    "time": "00:33",
+    "timestamp": "2025-06-11T17:18:51.328450"
   }
 ]

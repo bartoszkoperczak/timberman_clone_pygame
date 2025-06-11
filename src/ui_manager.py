@@ -13,6 +13,9 @@ class UIManager(Drawable):
         self.buttons = []
         self.assets = self.load_assets()
         self.create_main_menu()
+        self.music_volume = 0.3  # domyślna głośność
+        self.slider_rect = pygame.Rect(395, 177, 170, 10)  # pozycja i rozmiar slidera
+        self.slider_dragging = False
 
     def load_assets(self):
         return {
@@ -77,6 +80,14 @@ class UIManager(Drawable):
             img_x = 365
             img_y = 150
             surface.blit(scaled_settings, (img_x, img_y))
+
+            # --- SLIDER GŁOŚNOŚCI ---
+            pygame.draw.rect(surface, (180, 180, 180), self.slider_rect)  # tło slidera
+            knob_x = self.slider_rect.x + int(self.music_volume * self.slider_rect.width)
+            knob_rect = pygame.Rect(knob_x - 5, self.slider_rect.y - 4, 10, 18)
+            pygame.draw.rect(surface, (80, 80, 255), knob_rect)
+   
+
         for button in self.buttons:
             button.draw(surface)
 
@@ -86,3 +97,15 @@ class UIManager(Drawable):
     def handle_event(self, event):
         for button in self.buttons:
             button.handle_event(event)
+
+        if self.current_screen == 'settings':
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                mouse_x, mouse_y = event.pos
+                if hasattr(DEFAULTS, "SCALE"):
+                    mouse_x = int(mouse_x * DEFAULTS.SCALE)
+                    mouse_y = int(mouse_y * DEFAULTS.SCALE)
+                if self.slider_rect.collidepoint((mouse_x, mouse_y)):
+                    rel_x = mouse_x - self.slider_rect.x
+                    rel_x = max(0, min(rel_x, self.slider_rect.width))
+                    self.music_volume = rel_x / self.slider_rect.width
+                    pygame.mixer.music.set_volume(self.music_volume)
