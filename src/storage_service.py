@@ -60,4 +60,17 @@ class StorageService:
             print(f"Error saving config entry: {e}")
             return False
 
+    def get_controls(self):
+        config = self.get_all_config()
+        return config.get("controls", {
+            "player1": {"left": 97, "right": 100, "hit": 115},
+            "player2": {"left": 1073741904, "right": 1073741903, "hit": 1073741905}
+        })
+
+    def save_controls(self, controls):
+        config = self.get_all_config()
+        config["controls"] = controls
+        with open(self.config_file, 'w') as f:
+            json.dump(config, f, indent=2)
+
 storage_service = StorageService()

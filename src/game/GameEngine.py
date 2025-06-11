@@ -8,6 +8,7 @@ from src.game.IceShard import IceShard
 from src.interfaces.Drawable import Drawable
 from src.interfaces.EventSubscriber import EventSubscriber
 from src.enums.SteeringMode import SteeringMode
+from src.storage_service import storage_service
 
 
 class GameEngine(Drawable, EventSubscriber):
@@ -27,7 +28,11 @@ class GameEngine(Drawable, EventSubscriber):
         self.tree = Tree(self.pos(self.width // 2 - DEFAULTS.TREE_SIZE[0] // 2 , self.height - DEFAULTS.TREE_SIZE[1]))
 
         if steering != SteeringMode.BOT:
-            self.steering = DEFAULTS.PLAYER_1_STEERING if steering == SteeringMode.PLAYER_1 else DEFAULTS.PLAYER_2_STEERING
+            controls = storage_service.get_controls()
+            if steering == SteeringMode.PLAYER_1:
+                self.steering = controls["player1"]
+            else:
+                self.steering = controls["player2"]
             #event_manager.register_listener(pygame.KEYDOWN, self.register_listener)
 
         self.score = 0

@@ -502,37 +502,5 @@
     "time_limit": -1,
     "time": "00:00",
     "timestamp": "2025-06-11T18:57:07.427549"
-  },
-  {
-    "mode": 1,
-    "primary_score": 4,
-    "secondary_score": 0,
-    "time_limit": -1,
-    "time": "00:06",
-    "timestamp": "2025-06-11T19:21:53.677070"
-  },
-  {
-    "mode": 2,
-    "primary_score": 1,
-    "secondary_score": 28,
-    "time_limit": 100,
-    "time": "01:35",
-    "timestamp": "2025-06-11T19:22:01.341598"
-  },
-  {
-    "mode": 1,
-    "primary_score": 18,
-    "secondary_score": 0,
-    "time_limit": -1,
-    "time": "00:03",
-    "timestamp": "2025-06-11T19:31:52.123859"
-  },
-  {
-    "mode": 1,
-    "primary_score": 89,
-    "secondary_score": 0,
-    "time_limit": -1,
-    "time": "00:13",
-    "timestamp": "2025-06-11T21:35:18.805307"
   }
 ]
