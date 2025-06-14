@@ -3,9 +3,9 @@
   "test_key": "test_value",
   "controls": {
     "player1": {
-      "left": 122,
-      "right": 99,
-      "hit": 120
+      "left": 97,
+      "right": 100,
+      "hit": 115
     },
     "player2": {
       "left": 106,

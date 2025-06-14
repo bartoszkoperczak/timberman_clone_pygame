@@ -1,1 +1,34 @@
-[]
+[
+  {
+    "mode": 1,
+    "primary_score": 7,
+    "secondary_score": 0,
+    "time_limit": -1,
+    "time": "00:03",
+    "timestamp": "2025-06-12T12:50:55.666788"
+  },
+  {
+    "mode": 2,
+    "primary_score": 48,
+    "secondary_score": 21,
+    "time_limit": 100,
+    "time": "01:23",
+    "timestamp": "2025-06-12T12:51:14.593445"
+  },
+  {
+    "mode": 3,
+    "primary_score": 29,
+    "secondary_score": 0,
+    "time_limit": 100,
+    "time": "01:31",
+    "timestamp": "2025-06-12T13:03:29.212054"
+  },
+  {
+    "mode": 3,
+    "primary_score": 155,
+    "secondary_score": 0,
+    "time_limit": 100,
+    "time": "01:07",
+    "timestamp": "2025-06-14T15:45:44.860269"
+  }
+]
