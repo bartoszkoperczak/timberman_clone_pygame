@@ -30,5 +30,13 @@
     "time_limit": 100,
     "time": "01:07",
     "timestamp": "2025-06-14T15:45:44.860269"
+  },
+  {
+    "mode": 3,
+    "primary_score": 0,
+    "secondary_score": 50,
+    "time_limit": 100,
+    "time": "01:29",
+    "timestamp": "2025-06-14T19:47:25.876425"
   }
 ]
