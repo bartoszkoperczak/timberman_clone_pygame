@@ -23,7 +23,7 @@ class Game(Drawable):
         self.time_over = False
         self.elapsed_seconds = 0
         self.remaining_seconds = self.time_limit if self.time_limit else 0
-        # ---
+
         self.hud = HUD(self, mode)
         self._init_engines()
         view_manager.change_view(self)

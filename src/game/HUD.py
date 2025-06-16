@@ -15,7 +15,6 @@ class HUD(Drawable, EventSubscriber):
         self.game = game
         self.mode = mode
         self.return_button = Button(10, 10, assets.get("return_button"), self.return_to_menu)
-        # Poprawiona ścieżka do fontu (bez ukośnika na początku)
         self.font = pygame.font.Font("assets/fonts/Pixelify_Sans/static/PixelifySans-Bold.ttf", 48)
         self.lost_primary = False
         self.lost_secondary = False

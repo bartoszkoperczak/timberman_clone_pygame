@@ -45,8 +45,11 @@ class GameEngine(Drawable, EventSubscriber):
         self.last_points_time = 0
         self.points_popups = []  # lista popupów punktów
         self.ice_shard = None
+        self.bot_active = True
 
     def run_bot(self):
+        if not self.bot_active or self.lost:
+            return
         if pygame.time.get_ticks() - self.bot_last_call < DEFAULTS.BOT_ACTION_DELAY:
             return
 
@@ -179,6 +182,8 @@ class GameEngine(Drawable, EventSubscriber):
         # Sprawdź czy character jest na tej samej stronie co branch w najniższym logu
         lowest_log = self.tree.stack[-1]
         if lowest_log.branch_state != 0 and self.character.direction == lowest_log.branch_state:
+            self.lost = True
+            self.bot_active = False
             self.game_callback("lose", None)
 
     def increment_score(self, amount=1):
