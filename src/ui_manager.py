@@ -146,7 +146,7 @@ class UIManager(Drawable):
         surface.blit(title, (60, 30))
         y = 120
         if hasattr(self, 'history_games') and self.history_games:
-            for i, game in enumerate(self.history_games)[-10:]:
+            for i, game in list(enumerate(self.history_games))[-10:]:
                 mode = game.get('mode', '-')
                 p1 = game.get('primary_score', '-')
                 p2 = game.get('secondary_score', '-')
