@@ -1,6 +1,7 @@
 import pygame
 from src import DEFAULTS
 from src.interfaces.EventSubscriber import EventSubscriber
+from src.event_manager import event_manager
 
 class Button(EventSubscriber):
     def __init__(self, x, y, image, callback):
@@ -8,6 +9,8 @@ class Button(EventSubscriber):
         self.rect = self.image.get_rect(topleft=(x, y))
         self.callback = callback
         self.hovered = False
+
+        event_manager.register_listener(pygame.MOUSEBUTTONDOWN, self.handle_event)
 
     def draw(self, surface):
         mouse_pos = pygame.mouse.get_pos()
@@ -33,6 +36,8 @@ class Button(EventSubscriber):
         scaled_y = event.pos[1] * DEFAULTS.SCALE
         if self.rect.collidepoint((scaled_x, scaled_y)):
             self.callback()
+
+
 
     def handle_event(self, event):
         self.handle_mouse_click(event)
